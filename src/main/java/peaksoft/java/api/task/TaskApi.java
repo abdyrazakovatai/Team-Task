@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.java.dto.request.TaskRequest;
 import peaksoft.java.dto.response.SimpleResponse;
+import peaksoft.java.dto.response.TaskResponse;
 import peaksoft.java.dto.response.TasksResponse;
 import peaksoft.java.service.TaskService;
 import peaksoft.java.service.UserService;
@@ -17,9 +18,9 @@ public class TaskApi {
     final UserService userService;
     final TaskService taskService;
 
-//    POST /api/tasks - Жаңы тапшырма түзүү
-//    GET /api/tasks - Тапшырмалардын тизмесин алуу (фильтрация жана пагинация колдоо менен)
-//    GET /api/tasks/{id} - Тапшырма жөнүндө толук маалымат алуу
+//    todo   POST /api/tasks - Жаңы тапшырма түзүү
+//    todo GET /api/tasks - Тапшырмалардын тизмесин алуу (фильтрация жана пагинация колдоо менен)
+//    todo GET /api/tasks/{id} - Тапшырма жөнүндө толук маалымат алуу
 //    PUT /api/tasks/{id} - Тапшырманы жаңыртуу
 //    DELETE /api/tasks/{id} - Тапшырманы өчүрүү
 //    PATCH /api/tasks/{id}/status - Тапшырманын статусун өзгөртүү
@@ -35,4 +36,14 @@ public class TaskApi {
                                       @RequestParam(defaultValue = "0") int size){
         return taskService.tasks(page,size);
     }
+    @GetMapping("/{id}")
+    public TaskResponse getTask(@PathVariable Long id){
+        return taskService.getTask(id);
+    }
+    @PutMapping("/{id}")
+    public TaskResponse updateTask(@PathVariable Long id,
+                                   @RequestBody TaskRequest taskRequest){
+        return taskService.updateTask(id,taskRequest);
+    }
+
 }

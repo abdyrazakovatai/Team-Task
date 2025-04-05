@@ -9,9 +9,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import peaksoft.java.dto.request.TaskRequest;
 import peaksoft.java.dto.response.SimpleResponse;
+import peaksoft.java.dto.response.TaskResponse;
 import peaksoft.java.dto.response.TasksResponse;
 import peaksoft.java.entity.Task;
 import peaksoft.java.entity.User;
+import peaksoft.java.exception.NotFoundException;
 import peaksoft.java.repository.TaskRepository;
 import peaksoft.java.repository.UserRepository;
 
@@ -59,5 +61,48 @@ public class TaskService {
                         task.getCreatedAt()
                 )).collect(Collectors.toList());
         return tasksResponses;
+    }
+
+    public TaskResponse getTask(Long id) {
+        Task task = taskRepository.getById(id);
+        if (task == null) {
+            throw new NotFoundException("Task with id: " + id + "not found");
+        }
+        return new TaskResponse(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getStatus(),
+                task.getPriority(),
+                task.getCategory(),
+                task.getDeadline(),
+                task.getCreatedAt()
+        );
+    }
+
+    public TaskResponse updateTask(Long id, TaskRequest taskRequest) {
+        Task task = taskRepository.getById(id);
+        if (task == null) {
+            throw new NotFoundException("Task with id: " + id + "not found");
+        }
+        task.setTitle(taskRequest.title());
+        task.setDescription(taskRequest.description());
+        task.setStatus(taskRequest.status());
+        task.setDeadline(taskRequest.deadline());
+        task.setCreatedAt(LocalDate.now());
+        task.setPriority(taskRequest.priority());
+        task.setCategory(taskRequest.category());
+        task.setDeadline(taskRequest.deadline());
+        Task save = taskRepository.save(task);
+        return new TaskResponse(
+                save.getId(),
+                save.getTitle(),
+                save.getDescription(),
+                save.getStatus(),
+                save.getPriority(),
+                save.getCategory(),
+                save.getDeadline(),
+                save.getCreatedAt()
+        );
     }
 }
