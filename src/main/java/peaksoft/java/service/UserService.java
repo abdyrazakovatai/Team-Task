@@ -13,7 +13,6 @@ import peaksoft.java.dto.response.SimpleResponse;
 import peaksoft.java.dto.response.UserResponse;
 import peaksoft.java.dto.response.UsersResponse;
 import peaksoft.java.entity.User;
-import peaksoft.java.entity.UserInfo;
 import peaksoft.java.enums.Role;
 import peaksoft.java.exception.BadRequestException;
 import peaksoft.java.exception.NotFoundException;
@@ -32,27 +31,27 @@ public class UserService {
 
     @PostConstruct
     public void init() {
-        List<UserInfo> users = List.of(
-                new UserInfo("admin","admin@gmail.com",Role.ADMIN),
-                new UserInfo("manager","manager@gmail.com",Role.MANAGER)
+        List<User> users = List.of(
+                new User("admin","admin@gmail.com","Admin123",Role.ADMIN),
+                new User("manager","manager@gmail.com","Manager123",Role.MANAGER)
         );
-        users.forEach(userInfo -> createUserIfNotExists(userInfo));
+        users.forEach(user -> createUserIfNotExists(user));
     }
 
-    private void createUserIfNotExists(UserInfo userInfo) {
-        boolean exists = userRepository.existsUserByEmail(userInfo.getEmail());
+    private void createUserIfNotExists(User user) {
+        boolean exists = userRepository.existsUserByEmail(user.getEmail());
         if (!exists) {
             userRepository.save(User.builder()
-                    .userName(userInfo.getUsername())
-                    .email(userInfo.getEmail())
-                    .role(userInfo.getRole())
+                    .userName(user.getUserName())
+                    .email(user.getEmail())
+                    .password(passwordEncoder.encode(user.getPassword()))
+                    .role(user.getRole())
                     .build());
         }
     }
 
 
     public SimpleResponse register(AuthRequest authRequest) {
-
         if (userRepository.existsUserByEmail(authRequest.email())) {
             throw new NotFoundException("User with email " + authRequest.email() + " already exists");
         }
@@ -74,13 +73,14 @@ public class UserService {
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
-        User user = userRepository.getUserByEmail(loginRequest.email());
+        User user = userRepository.findUserByEmail(loginRequest.email());
 
         if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
             throw new BadRequestException("Wrong password");
         }
+        String accessToken = jwtService.createJwtToken(user,false);
         return new AuthResponse(
-                jwtService.createJwtToken(user),
+                accessToken,
                 user.getEmail(),
                 user.getRole()
         );
@@ -125,7 +125,7 @@ public class UserService {
         User save = userRepository.save(user);
         return new UserResponse(
                 save.getId(),
-                save.getUsername(),
+                save.getUserName(),
                 save.getEmail(),
                 save.getFirstName(),
                 save.getLastName(),

@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "team_members")
@@ -18,17 +17,17 @@ import java.util.List;
 public class TeamMembers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teams_gen")
-    @SequenceGenerator(name = "teams_gen", sequenceName = "teams_seq")
+    @SequenceGenerator(name = "teams_gen", sequenceName = "teams_seq", allocationSize = 1)
     Long id;
     @Column(name = "joined_at")
     LocalDate joinedAt;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     Team team;
 
-    @OneToMany
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
-    List<User> users;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    User user;
 
 }

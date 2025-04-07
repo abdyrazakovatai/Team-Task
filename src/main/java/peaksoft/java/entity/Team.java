@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_gen")
-    @SequenceGenerator(name = "team_gen", sequenceName = "team_seq")
+    @SequenceGenerator(name = "team_gen", sequenceName = "team_seq",allocationSize = 1)
     Long id;
     String name;
     String description;
@@ -31,6 +31,4 @@ public class Team {
 
     @Column(name = "updated_at")
     LocalDate updatedAt;
-
-
 }

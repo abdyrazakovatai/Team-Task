@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "resfresh_token")
+@Table(name = "resfresh_tokens")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_gen")
-    @SequenceGenerator(name = "token_gen", sequenceName = "token_seq")
+    @SequenceGenerator(name = "token_gen", sequenceName = "token_seq", allocationSize = 1, initialValue = 1)
     Long id;
 
     @OneToOne

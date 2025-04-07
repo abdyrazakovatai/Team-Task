@@ -17,31 +17,31 @@ import java.util.List;
 public class UserApi {
     private final UserService userService;
 
-//    GET /api/users - Бардык колдонуучулардын тизмесин алуу (АДМИН, ЖЕТЕКЧИ гана)
-//    GET /api/users/{id} - Колдонуучу жөнүндө маалымат алуу
-//    PUT /api/users/{id} - Колдонуучу маалыматын жаңыртуу
-//    DELETE /api/users/{id} - Колдонуучуну өчүрүү (АДМИН гана)
-
-    @Secured("{ADMIN,MANAGER}")
+    //todo GET /api/users - Бардык колдонуучулардын тизмесин алуу (АДМИН, ЖЕТЕКЧИ гана)
+    @Secured({"ADMIN","MANAGER"})
     @GetMapping()
     public List<UsersResponse> getAll() {
         return userService.users();
     }
 
+    //todo GET /api/users/{id} - Колдонуучу жөнүндө маалымат алуу
+    @Secured({"ADMIN","MANAGER","USER"})
     @GetMapping("/{id}")
     public UsersResponse getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
+    //todo PUT /api/users/{id} - Колдонуучу маалыматын жаңыртуу
+    @Secured({"ADMIN","MANAGER","USER"})
     @PutMapping("/{id}")
     public UserResponse updateUser(@PathVariable Long id, @RequestBody UpdateRequest updateRequest) {
         return userService.updateUser(id,updateRequest);
     }
 
+    //todo DELETE /api/users/{id} - Колдонуучуну өчүрүү (АДМИН гана)
     @Secured("ADMIN")
     @DeleteMapping("/{id}")
     public SimpleResponse deleteUser(@PathVariable Long id) {
         return userService.delete(id);
     }
-
 }

@@ -16,8 +16,8 @@ app:
    security:
     jwt:
      secret_key: "java"
-     expiration: 9999
-     refreshExpiration: 15848
+     expiration: 900
+     refreshExpiration: 604800
 
 server:
   port: 9191

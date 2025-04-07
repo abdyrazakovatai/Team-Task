@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import peaksoft.java.entity.User;
+import peaksoft.java.entity.UserInfo;
 
 import java.io.IOException;
 
@@ -33,13 +34,13 @@ public class JwtFilter extends OncePerRequestFilter {
         if (headerToken != null && headerToken.startsWith(BEARER)) {
             String token = headerToken.substring(7);
             try {
-                User user = jwtService.verifyJwtToken(token);
-                if (user != null) {
+                UserInfo userInfo = jwtService.verifyJwtToken(token);
+                if (userInfo != null) {
                     SecurityContextHolder.getContext().setAuthentication(
                             new UsernamePasswordAuthenticationToken(
-                                    user,
+                                    userInfo,
                                     null,
-                                    user.getAuthorities()
+                                    userInfo.getAuthorities()
                             )
                     );
                 }

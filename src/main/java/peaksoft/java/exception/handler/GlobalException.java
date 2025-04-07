@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import peaksoft.java.dto.response.ExceptionResponse;
+import peaksoft.java.exception.AlreadyExistException;
 import peaksoft.java.exception.BadRequestException;
 import peaksoft.java.exception.NotFoundException;
 
+import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +29,16 @@ public class GlobalException {
                 .status(HttpStatus.NOT_FOUND)
                 .exceptionsClassName(NotFoundException.class.getName())
                 .message(notfoundException.getMessage())
+                .build();
+    }
+    @ExceptionHandler(AlreadyExistException.class)
+    @ResponseStatus(HttpStatus.IM_USED)  //
+    public ExceptionResponse exists(AlreadyExistException e) {
+        return ExceptionResponse.
+                builder()
+                .status(HttpStatus.IM_USED)
+                .exceptionsClassName(AlreadyExistException.class.getName())
+                .message(e.getMessage())
                 .build();
     }
 

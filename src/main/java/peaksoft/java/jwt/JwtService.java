@@ -1,6 +1,7 @@
 package peaksoft.java.jwt;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import peaksoft.java.entity.User;
+import peaksoft.java.entity.UserInfo;
 import peaksoft.java.repository.UserRepository;
 
 import java.time.ZonedDateTime;
@@ -27,41 +29,49 @@ public class JwtService {
 
     final UserRepository userRepository;
 
-    public String createJwtToken(User user) {
+    public String createJwtToken(User user, boolean isRefreshToken) {
         ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        Long expirationDate = isRefreshToken ? refreshExpiration : expiration;
 
-        String token = JWT.create()
+        JWTCreator.Builder token = JWT.create()
                 .withClaim("id", user.getId())
-                .withClaim("name", user.getFirstName())
-                .withClaim("email", user.getEmail())
-                .withClaim("role", user.getRole().name())
+                .withClaim("username", user.getUserName())
                 .withIssuedAt(zonedDateTime.toInstant())
-                .withExpiresAt(zonedDateTime.plusSeconds(expiration).toInstant())
-                .sign(getAlgorithm());
+                .withExpiresAt(zonedDateTime.plusSeconds(expirationDate).toInstant());
 
-        return new String(token
+        if (!isRefreshToken) {
+            token
+                    .withClaim("email", user.getEmail())
+                    .withClaim("role", user.getRole().name());
+    }
+        return token.sign(getAlgorithm());
+
+
+//        return new String(token
 //                , zonedDateTime, zonedDateTime.plusSeconds(expiration)
-        );
+//        );
     }
 
-    public String createRefreshToken(User user) {
-        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+//    public String createRefreshToken(User user) {
+//        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+//
+//        String refreshToken = JWT.create()
+//                .withClaim("id", user.getId())
+//                .withClaim("email", user.getEmail())
+//                .withIssuedAt(zonedDateTime.toInstant())
+//                .withExpiresAt(zonedDateTime.plusSeconds(refreshExpiration).toInstant())
+//                .sign(getAlgorithm());
+//        return refreshToken;
+//    }
 
-        String refreshToken = JWT.create()
-                .withClaim("id", user.getId())
-                .withClaim("email", user.getEmail())
-                .withIssuedAt(zonedDateTime.toInstant())
-                .withExpiresAt(zonedDateTime.plusSeconds(refreshExpiration).toInstant())
-                .sign(getAlgorithm());
-        return refreshToken;
-    }
-
-    public User verifyJwtToken(String token) {
+    public UserInfo verifyJwtToken(String token) {
         Algorithm algorithm = getAlgorithm();
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT verify = verifier.verify(token);
         String email = verify.getClaim("email").asString();
-        return userRepository.getUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
+        return new UserInfo(user);
+
     }
 
     public Algorithm getAlgorithm() {
