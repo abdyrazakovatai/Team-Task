@@ -16,7 +16,6 @@ import peaksoft.java.entity.Task;
 import peaksoft.java.entity.Team;
 import peaksoft.java.entity.User;
 import peaksoft.java.enums.Status;
-import peaksoft.java.exception.NotFoundException;
 import peaksoft.java.repository.TaskRepository;
 import peaksoft.java.repository.TeamMembersRepository;
 import peaksoft.java.repository.UserRepository;
