@@ -1,6 +1,7 @@
 package peaksoft.java.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class TaskService {
     final TaskRepository taskRepository;
@@ -34,6 +36,8 @@ public class TaskService {
     public SimpleResponse addTask(TaskRequest taskRequest) {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findUserByEmail(currentUserEmail);
+
+        log.info("User [{}] is creating a new task: {}", currentUserEmail, taskRequest.title());
 
         taskRepository.save(Task.builder()
                 .title(taskRequest.title())
@@ -46,6 +50,9 @@ public class TaskService {
                 .createdAt(LocalDate.now())
                 .createdBy(user)
                 .build());
+
+        log.info("Task [{}] created successfully", taskRequest.title());
+
         return new SimpleResponse(
                 HttpStatus.OK,
                 "Task saved successfully"
@@ -54,6 +61,7 @@ public class TaskService {
 
     public List<TasksResponse> tasks(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
+        log.info("Fetching tasks page: {}, size: {}", page, size);
 
         Page<Task> taskPage = taskRepository.findAll(pageable);
         List<TasksResponse> tasksResponses = taskPage.getContent().stream()
@@ -71,6 +79,7 @@ public class TaskService {
 
     public TaskResponse getTask(Long id) {
         Task task = taskRepository.getTaskById(id);
+        log.info("Getting task with ID: {}", id);
 
         return new TaskResponse(
                 task.getId(),
@@ -86,6 +95,7 @@ public class TaskService {
 
     public TaskResponse updateTask(Long id, TaskRequest taskRequest) {
         Task task = taskRepository.getTaskById(id);
+        log.info("Updating task with ID: {}", id);
 
         task.setTitle(taskRequest.title());
         task.setDescription(taskRequest.description());
@@ -110,6 +120,7 @@ public class TaskService {
 
     public SimpleResponse delete(Long id) {
         Task task = taskRepository.getTaskById(id);
+        log.warn("Deleting task with ID: {}", id);
 
         taskRepository.delete(task);
         return new SimpleResponse(
@@ -120,6 +131,7 @@ public class TaskService {
 
     public TaskResponse status(Long id, Status status) {
         Task task = taskRepository.getTaskById(id);
+        log.info("Updating status of task [{}] to {}", id, status);
 
         task.setStatus(status);
         taskRepository.save(task);
@@ -139,6 +151,7 @@ public class TaskService {
         Task task = taskRepository.getTaskById( taskId);
         User user = userRepository.getUserById(userId);
         Team team = teamMembersRepository.findByTeamByUser(user.getId());
+        log.info("Assigning task [{} - {}] to user [{} - {}]", taskId, task.getTitle(), userId, user.getUserName());
 
         task.setTeam(team);
         task.setAssignedTo(user);
