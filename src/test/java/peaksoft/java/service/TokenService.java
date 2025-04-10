@@ -1,15 +1,14 @@
 package peaksoft.java.service;
 
 import com.auth0.jwt.JWT;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import peaksoft.java.dto.response.SimpleResponse;
 import peaksoft.java.entity.RefreshToken;
 import peaksoft.java.entity.User;
@@ -18,15 +17,13 @@ import peaksoft.java.repository.TeamRepository;
 import peaksoft.java.repository.TokenRepository;
 import peaksoft.java.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@ActiveProfiles("test")
-@Transactional
 class TokenServiceTest {
 
     @Mock
@@ -49,8 +46,15 @@ class TokenServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "atai@gmail.com")
     void testCreateRefreshToken_newToken() {
+
+        // Mock SecurityContext
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken("atai@gmail.com", null, new ArrayList<>());
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
         // Given
         User user = new User();
         user.setId(1L);
@@ -69,11 +73,19 @@ class TokenServiceTest {
         assertEquals(HttpStatus.OK, response.status());
         assertEquals(fakeToken, response.message());
         verify(tokenRepository, times(1)).save(any(RefreshToken.class));
+
     }
 
     @Test
-    @WithMockUser(username = "atai@gmail.com")
     void testCreateRefreshToken_updateExistingToken() {
+
+        // Mock SecurityContext
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken("atai@gmail.com", null, new ArrayList<>());
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
         // Given
         User user = new User();
         user.setId(2L);
@@ -98,8 +110,14 @@ class TokenServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "atai@gmail.com")
     void testLogout() {
+        // Mock SecurityContext
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken("atai@gmail.com", null, new ArrayList<>());
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
         // Given
         User user = new User();
         user.setId(3L);

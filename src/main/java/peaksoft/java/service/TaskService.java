@@ -122,7 +122,7 @@ public class TaskService {
         Task task = taskRepository.getTaskById(id);
         log.warn("Deleting task with ID: {}", id);
 
-        taskRepository.delete(task);
+        taskRepository.deleteById(task.getId());
         return new SimpleResponse(
                 HttpStatus.OK,
                 "Task deleted successfully"

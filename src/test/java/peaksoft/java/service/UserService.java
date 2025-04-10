@@ -49,7 +49,8 @@ class UserServiceTest {
         SimpleResponse response = userService.register(request);
 
         assertEquals("Register successfully", response.message());
-        assertEquals(HttpStatus.OK, response.message());
+        assertEquals(HttpStatus.OK, response.status());
+
         verify(userRepository).save(any(User.class));
     }
 
@@ -111,7 +112,7 @@ class UserServiceTest {
 
         SimpleResponse response = userService.delete(1L);
 
-        assertEquals(HttpStatus.OK, response.message());
+        assertEquals(HttpStatus.OK, response.status());
         verify(userRepository).delete(user);
     }
 
@@ -121,7 +122,7 @@ class UserServiceTest {
 
         SimpleResponse response = userService.delete(1L);
 
-        assertEquals(HttpStatus.NOT_FOUND, response.message());
+        assertEquals(HttpStatus.NOT_FOUND, response.status());
         assertEquals("User with id 1 not found", response.message());
     }
 }

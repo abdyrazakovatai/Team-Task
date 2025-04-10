@@ -1,14 +1,17 @@
 package peaksoft.java.service;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 import peaksoft.java.dto.request.TeamRequest;
 import peaksoft.java.dto.response.AssignTeamResponse;
 import peaksoft.java.dto.response.SimpleResponse;
@@ -52,17 +55,26 @@ class TeamServiceTest {
         User user = new User();
         user.setEmail("user@example.com");
 
+        // Моки
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getName()).thenReturn(user.getEmail());
-        SecurityContextHolder.setContext(securityContext);
-
         when(userRepository.findUserByEmail(user.getEmail())).thenReturn(user);
+        SecurityContextHolder.setContext(securityContext);         // Установка контекста безопасности
 
+        Team team = new Team();
+        team.setName(teamRequest.name());
+        team.setDescription(teamRequest.description());
+        when(teamRepository.save(any(Team.class))).thenReturn(team);
+
+
+        // Вызов метода
         SimpleResponse response = teamService.newTeam(teamRequest);
 
+        // Проверки
         assertEquals(HttpStatus.OK, response.status());
         assertEquals("New team created", response.message());
         verify(teamRepository).save(any(Team.class));
+
     }
 
     @Test

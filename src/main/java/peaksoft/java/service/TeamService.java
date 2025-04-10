@@ -37,12 +37,20 @@ public class TeamService {
 
         log.info("User [{}] is creating a new team: {}", currentUserEmail, teamRequest.name());
 
-        teamRepository.save(Team.builder()
-                .name(teamRequest.name())
-                .description(teamRequest.description())
-                .createdAt(LocalDate.now())
-                .createdBy(currentUser)
-                .build());
+        Team team = new Team();
+        team.setName(teamRequest.name());
+        team.setDescription(teamRequest.description());
+        team.setCreatedAt(LocalDate.now());
+        team.setCreatedBy(currentUser);
+
+        teamRepository.save(team);
+
+//        teamRepository.save(Team.builder()
+//                .name(teamRequest.name())
+//                .description(teamRequest.description())
+//                .createdAt(LocalDate.now())
+//                .createdBy(currentUser)
+//                .build());
 
         log.info("Team [{}] created successfully", teamRequest.name());
 
