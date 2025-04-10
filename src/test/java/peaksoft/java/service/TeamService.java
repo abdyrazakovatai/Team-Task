@@ -55,7 +55,6 @@ class TeamServiceTest {
         User user = new User();
         user.setEmail("user@example.com");
 
-        // Моки
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getName()).thenReturn(user.getEmail());
         when(userRepository.findUserByEmail(user.getEmail())).thenReturn(user);
@@ -66,11 +65,8 @@ class TeamServiceTest {
         team.setDescription(teamRequest.description());
         when(teamRepository.save(any(Team.class))).thenReturn(team);
 
-
-        // Вызов метода
         SimpleResponse response = teamService.newTeam(teamRequest);
 
-        // Проверки
         assertEquals(HttpStatus.OK, response.status());
         assertEquals("New team created", response.message());
         verify(teamRepository).save(any(Team.class));

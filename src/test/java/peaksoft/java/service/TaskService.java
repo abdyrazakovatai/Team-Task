@@ -57,7 +57,6 @@ class TaskServiceTest {
 
     @Test
     void addTask_shouldSaveTaskAndReturnSuccessResponse() {
-        // given
         String email = "atai@gmail.com";
         User user = new User();
         user.setEmail(email);
@@ -71,16 +70,13 @@ class TaskServiceTest {
                 LocalDate.of(2025, 4, 20)
         );
 
-        // моки
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getName()).thenReturn(email);
         when(userRepository.findUserByEmail(email)).thenReturn(user);
         when(taskRepository.save(any(Task.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // when
         SimpleResponse response = taskService.addTask(taskRequest);
 
-        // then
         assertEquals(HttpStatus.OK, response.status());
         assertEquals("Task saved successfully", response.message());
 
@@ -124,21 +120,17 @@ void testUpdateTask() {
             LocalDate.now().plusDays(10)
     );
 
-    // задаём поведение моков
     when(taskRepository.getTaskById(taskId)).thenReturn(task);
     when(taskRepository.save(any(Task.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-    // вызов сервиса
     TaskResponse updated = taskService.updateTask(taskId, request);
 
-    // проверки
     assertThat(updated.title()).isEqualTo("New Title");
     assertThat(updated.status()).isEqualTo(Status.COMPLETED);
 }
 
     @Test
     void testDeleteTask() {
-        // Создание пользователя и задачи
         User user = new User();
         user.setEmail("atai@gmail.com");
         System.out.println("user = " + user);
@@ -148,33 +140,26 @@ void testUpdateTask() {
         task.setCreatedAt(LocalDate.now());
         System.out.println("task = " + task);
 
-        // Мокаем сохранение задачи и присваиваем ID
         when(taskRepository.save(any(Task.class))).thenAnswer(invocation -> {
             Task savedTask = invocation.getArgument(0);
-            savedTask.setId(1L);  // Присваиваем ID вручную для мокированного объекта
+            savedTask.setId(1L);
             System.out.println("savedTask = " + savedTask);
             return savedTask;
         });
 
-        // Сохраняем задачу через сервис
         task = taskRepository.save(task);
         System.out.println("task = " + task);
 
-        // Мокаем метод getTaskById, чтобы вернуть задачу по ID
         when(taskRepository.getTaskById(task.getId())).thenReturn(task);
 
-        // Мокаем удаление задачи
         doNothing().when(taskRepository).deleteById(task.getId());  // Мокаем удаление
 
-        // Вызов метода удаления
         SimpleResponse response = taskService.delete(task.getId());
         System.out.println("response = " + response);
 
-        // Проверки
         assertThat(response.status()).isEqualTo(HttpStatus.OK);
         assertThat(response.message()).isEqualTo("Task deleted successfully");
 
-        // Проверяем, что задача была удалена
         verify(taskRepository, times(1)).deleteById(task.getId());
     }
 
@@ -182,7 +167,6 @@ void testUpdateTask() {
     void testChangeStatus() {
         Long taskId = 1L;
 
-        // Создаем объект задачи и пользователя
         Task task = new Task();
         User user = new User();
         user.setEmail("atai@gmail.com");
@@ -193,59 +177,46 @@ void testUpdateTask() {
         task.setCreatedBy(user);
         task.setCreatedAt(LocalDate.now());
 
-
-        // Мокаем метод findById, чтобы вернуть задачу по ID
         when(taskRepository.getTaskById(taskId)).thenReturn(task);
 
-        // Вызов метода смены статуса
         TaskResponse response = taskService.status(task.getId(), Status.CANCELLED);
 
-        // Проверки
         assertThat(response.status()).isEqualTo(Status.CANCELLED);
-        verify(taskRepository).save(task);  // Проверяем, что метод save был вызван
+        verify(taskRepository).save(task);
     }
 
     @Test
     void testAssignTaskToUser() {
-        // Данные
         Long userId = 1L;
         Long taskId = 10L;
 
-        // Создание пользователя
         User user = new User();
         user.setId(userId);
         user.setEmail("atai@gmail.com");
         user.setUserName("Atai");
 
-        // Создание команды
         Team team = new Team();
         team.setId(100L);
         team.setName("Dev Team");
 
-        // Создание задачи
         Task task = new Task();
         task.setId(taskId);
         task.setTitle("Assignment");
         task.setCreatedBy(user);
         task.setCreatedAt(LocalDate.now());
 
-        // Мокаем нужные зависимости
         when(taskRepository.getTaskById(taskId)).thenReturn(task);
         when(userRepository.getUserById(userId)).thenReturn(user);
         when(teamMembersRepository.findByTeamByUser(user.getId())).thenReturn(team);
 
-        // Вызов метода
         AssignTaskResponse response = taskService.assign(taskId, userId);
 
-        // Вывод в консоль (можно убрать после отладки)
         System.out.println("response = " + response);
 
-        // Проверки
         assertThat(response.userId()).isEqualTo(user.getId());
         assertThat(response.taskId()).isEqualTo(task.getId());
         assertThat(response.email()).isEqualTo(user.getEmail());
 
-        // Проверка, что задача была сохранена
         verify(taskRepository).save(task);
     }
 }

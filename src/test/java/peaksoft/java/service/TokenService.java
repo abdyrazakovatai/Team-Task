@@ -47,15 +47,12 @@ class TokenServiceTest {
 
     @Test
     void testCreateRefreshToken_newToken() {
-
-        // Mock SecurityContext
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken("atai@gmail.com", null, new ArrayList<>());
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
 
-        // Given
         User user = new User();
         user.setId(1L);
         user.setEmail("atai@gmail.com");
@@ -66,10 +63,8 @@ class TokenServiceTest {
         String fakeToken = createFakeJwtToken();
         when(jwtService.createJwtToken(user, true)).thenReturn(fakeToken);
 
-        // When
         SimpleResponse response = tokenService.createRefreshToken();
 
-        // Then
         assertEquals(HttpStatus.OK, response.status());
         assertEquals(fakeToken, response.message());
         verify(tokenRepository, times(1)).save(any(RefreshToken.class));
@@ -78,15 +73,12 @@ class TokenServiceTest {
 
     @Test
     void testCreateRefreshToken_updateExistingToken() {
-
-        // Mock SecurityContext
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken("atai@gmail.com", null, new ArrayList<>());
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
 
-        // Given
         User user = new User();
         user.setId(2L);
         user.setEmail("atai@gmail.com");
@@ -100,10 +92,8 @@ class TokenServiceTest {
         String newToken = createFakeJwtToken();
         when(jwtService.createJwtToken(user, true)).thenReturn(newToken);
 
-        // When
         SimpleResponse response = tokenService.createRefreshToken();
 
-        // Then
         assertEquals(HttpStatus.OK, response.status());
         assertEquals(newToken, response.message());
         verify(tokenRepository, times(1)).save(existing);
@@ -111,24 +101,20 @@ class TokenServiceTest {
 
     @Test
     void testLogout() {
-        // Mock SecurityContext
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken("atai@gmail.com", null, new ArrayList<>());
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
 
-        // Given
         User user = new User();
         user.setId(3L);
         user.setEmail("atai@gmail.com");
 
         when(userRepository.findUserByEmail("atai@gmail.com")).thenReturn(user);
 
-        // When
         SimpleResponse response = tokenService.logout();
 
-        // Then
         assertEquals(HttpStatus.OK, response.status());
         assertEquals("Logged out successfully", response.message());
         verify(teamRepository).deleteUserById(user.getId());
