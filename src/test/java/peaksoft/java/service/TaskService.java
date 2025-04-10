@@ -207,42 +207,6 @@ void testUpdateTask() {
 
     @Test
     void testAssignTaskToUser() {
-//        Long userId = 1L;
-//        Long taskId = 2L;
-//
-//        User user = new User();
-//        user.setId(userId);
-//        user.setEmail("atai@gmail.com");
-//
-//        Team team = new Team();
-//        team.setName("Dev Team");
-//        user.setTeam(team);
-//
-//        Task task = new Task();
-//        task.setId(taskId);
-//        task.setTitle("Assignment");
-//        task.setCreatedBy(user);
-//        task.setCreatedAt(LocalDate.now());
-//
-//        TeamMembers teamMember = new TeamMembers();
-//        teamMember.setUser(user);
-//        teamMember.setTeam(team);
-//
-//        // Мокаем методы
-//        when(taskRepository.getTaskById(taskId)).thenReturn(task);
-//        when(teamMembersRepository.findByTeamByUser(userId)).thenReturn(team);
-//
-//        System.out.println("task = " + task);
-//        System.out.println("userId = " + userId);
-//
-//        AssignTaskResponse response = taskService.assign(taskId, userId);
-//        System.out.println("response = " + response);
-//
-//        assertThat(response.userId()).isEqualTo(user.getId());
-//        assertThat(response.taskId()).isEqualTo(task.getId());
-//        assertThat(response.email()).isEqualTo("atai@gmail.com");
-//
-//        verify(taskRepository).save(task);
         // Данные
         Long userId = 1L;
         Long taskId = 10L;
