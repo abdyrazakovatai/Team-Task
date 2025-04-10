@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  backend:
+    image: '#image'
+    container_name: team-task
+    restart: always
+    ports:
+      - "80:2025"
+    environment:
+      SPRING_PROFILES_ACTIVE: main
+      SERVER_PORT: 2025
+      POSTGRES_DB: jdbc:postgresql://localhost:5432/postgres
+      POSTGRES_USER: teamuser
+      POSTGRES_PASSWORD: teampass
+  database:
+    image: postgres:15
+    restart: always
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: teamuser
+      POSTGRES_PASSWORD: teampass
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
