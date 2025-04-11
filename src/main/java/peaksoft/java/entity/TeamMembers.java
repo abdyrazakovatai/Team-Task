@@ -22,12 +22,11 @@ public class TeamMembers {
     @Column(name = "joined_at")
     LocalDate joinedAt;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     Team team;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
-
 }

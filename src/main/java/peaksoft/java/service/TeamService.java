@@ -136,9 +136,11 @@ public class TeamService {
         Team team = teamRepository.getTeamById(teamId);
 
         TeamMembers teamMember = teamMembersRepository.findByTeamIdAndUserId(team.getId(), userId);
-        teamMembersRepository.delete(teamMember);
+        if (teamMember != null) {
+            teamMembersRepository.delete(teamMember);
+            log.info("User [{}] removed from team [{}]", userId, teamId);
+        }
 
-        log.info("User [{}] removed from team [{}]", userId, teamId);
         return new SimpleResponse(
                 HttpStatus.OK,
                 "Team members deleted"

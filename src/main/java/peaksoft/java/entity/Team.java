@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "teams")
@@ -26,9 +27,13 @@ public class Team {
     @JoinColumn(name = "created_by",referencedColumnName = "id")
     User createdBy;
 
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<TeamMembers> teamMembers;
+
     @Column(name = "createdAt")
     LocalDate createdAt;
 
     @Column(name = "updated_at")
     LocalDate updatedAt;
+
 }
