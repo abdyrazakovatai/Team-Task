@@ -44,13 +44,6 @@ public class TeamService {
 
         teamRepository.save(team);
 
-//        teamRepository.save(Team.builder()
-//                .name(teamRequest.name())
-//                .description(teamRequest.description())
-//                .createdAt(LocalDate.now())
-//                .createdBy(currentUser)
-//                .build());
-
         log.info("Team [{}] created successfully", teamRequest.name());
 
         return new SimpleResponse(
@@ -63,13 +56,12 @@ public class TeamService {
         log.info("Fetching all teams");
         List<Team> teams = teamRepository.findAll();
 
-        List<TeamsResponse> teamsResponses = teams.stream().map(
+        return teams.stream().map(
                 team -> new TeamsResponse(
                         team.getId(),
                         team.getName(),
                         team.getDescription())
         ).toList();
-        return teamsResponses;
     }
 
     public TeamResponse team(Long id) {

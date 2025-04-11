@@ -18,24 +18,25 @@ public class AuthApi {
 
     //todo POST /api/auth/register - Жаңы колдонуучуну каттоо
     @PostMapping("/register")
-    public SimpleResponse signUp (@RequestBody AuthRequest authRequest){
+    public SimpleResponse signUp(@RequestBody AuthRequest authRequest) {
         return userService.register(authRequest);
     }
+
     //todo POST /api/auth/login - Системага кирүү жана JWT токенди алуу
     @PostMapping("/login")
-    public AuthResponse signIn (@RequestBody LoginRequest loginRequest){
+    public AuthResponse signIn(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);
     }
 
     //todo POST /api/auth/refresh - Refresh токен аркылуу жаңы JWT токенди алуу
     @PostMapping("/refreshToken")
-    public SimpleResponse refreshToken (){
+    public SimpleResponse refreshToken() {
         return tokenService.createRefreshToken();
     }
 
     //todo POST /api/auth/logout - Системадан чыгуу
     @DeleteMapping("/logout")
-    public SimpleResponse logout (){
+    public SimpleResponse logout() {
         return tokenService.logout();
     }
 }

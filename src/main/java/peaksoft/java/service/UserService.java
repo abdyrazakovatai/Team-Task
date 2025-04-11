@@ -37,12 +37,11 @@ public class UserService {
                 new User("admin", "admin@gmail.com", "Admin123", Role.ADMIN),
                 new User("manager", "manager@gmail.com", "Manager123", Role.MANAGER)
         );
-        users.forEach(user -> createUserIfNotExists(user));
+        users.forEach(this::createUserIfNotExists);
     }
 
     private void createUserIfNotExists(User user) {
-        boolean exists = userRepository.existsUserByEmail(user.getEmail());
-        if (!exists) {
+        if (!userRepository.existsUserByEmail(user.getEmail())) {
             userRepository.save(User.builder()
                     .userName(user.getUserName())
                     .email(user.getEmail())

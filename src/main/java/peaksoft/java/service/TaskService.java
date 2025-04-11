@@ -64,7 +64,7 @@ public class TaskService {
         log.info("Fetching tasks page: {}, size: {}", page, size);
 
         Page<Task> taskPage = taskRepository.findAll(pageable);
-        List<TasksResponse> tasksResponses = taskPage.getContent().stream()
+        return taskPage.getContent().stream()
                 .map(task -> new TasksResponse(
                         task.getTitle(),
                         task.getDescription(),
@@ -74,7 +74,6 @@ public class TaskService {
                         task.getDeadline(),
                         task.getCreatedAt()
                 )).collect(Collectors.toList());
-        return tasksResponses;
     }
 
     public TaskResponse getTask(Long id) {
@@ -148,7 +147,7 @@ public class TaskService {
     }
 
     public AssignTaskResponse assign(Long taskId, Long userId) {
-        Task task = taskRepository.getTaskById( taskId);
+        Task task = taskRepository.getTaskById(taskId);
         User user = userRepository.getUserById(userId);
         Team team = teamMembersRepository.findByTeamByUser(user.getId());
         log.info("Assigning task [{} - {}] to user [{} - {}]", taskId, task.getTitle(), userId, user.getUserName());

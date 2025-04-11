@@ -6,9 +6,9 @@ spring:
 #   password: 1234
 #   driver-class-name: org.postgresql.Driver
 
-     url: ${POSTGRES_DB}
-     username: ${POSTGRES_USER}
-     password: ${POSTGRES_PASSWORD}
+     url: jdbc:postgresql://35.158.118.182:5432/postgres
+     username: teamuser
+     password: teampass
      driver-class-name: org.postgresql.Driver
 
   jpa:
