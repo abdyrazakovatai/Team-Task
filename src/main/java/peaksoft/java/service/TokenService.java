@@ -96,6 +96,13 @@ public class TokenService {
 
         String username = authentication.getName();
         User user = userRepository.findUserByEmail(username);
+
+        if (user == null) {
+            return new SimpleResponse(
+                    HttpStatus.UNAUTHORIZED,
+                    "User not found");
+        }
+
         log.info("User [{}] is logging out", username);
 
         teamRepository.deleteUserById(user.getId());

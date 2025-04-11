@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Collections;
 @Configuration
 public class SwaggerConfig {
-
     private final static String API_KEY = "Bearer Token";
 
     @Bean
