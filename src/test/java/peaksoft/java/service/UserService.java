@@ -11,7 +11,7 @@ import peaksoft.java.dto.request.AuthRequest;
 import peaksoft.java.dto.request.LoginRequest;
 import peaksoft.java.dto.response.AuthResponse;
 import peaksoft.java.dto.response.SimpleResponse;
-import peaksoft.java.dto.response.UsersResponse;
+import peaksoft.java.dto.response.user.UsersResponse;
 import peaksoft.java.entity.User;
 import peaksoft.java.enums.Role;
 import peaksoft.java.exception.BadRequestException;

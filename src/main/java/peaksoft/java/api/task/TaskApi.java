@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.java.dto.request.TaskRequest;
-import peaksoft.java.dto.response.AssignTaskResponse;
+import peaksoft.java.dto.response.task.AssignTaskResponse;
 import peaksoft.java.dto.response.SimpleResponse;
-import peaksoft.java.dto.response.TaskResponse;
-import peaksoft.java.dto.response.TasksResponse;
+import peaksoft.java.dto.response.task.TaskResponse;
+import peaksoft.java.dto.response.task.TasksResponse;
 import peaksoft.java.enums.Status;
 import peaksoft.java.service.TaskService;
 

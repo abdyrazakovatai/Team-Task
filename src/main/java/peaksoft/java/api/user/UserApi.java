@@ -5,8 +5,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.java.dto.request.UpdateRequest;
 import peaksoft.java.dto.response.SimpleResponse;
-import peaksoft.java.dto.response.UserResponse;
-import peaksoft.java.dto.response.UsersResponse;
+import peaksoft.java.dto.response.user.UserResponse;
+import peaksoft.java.dto.response.user.UsersResponse;
 import peaksoft.java.service.UserService;
 
 import java.util.List;

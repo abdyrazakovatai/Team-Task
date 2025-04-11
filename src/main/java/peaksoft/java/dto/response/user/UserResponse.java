@@ -1,4 +1,4 @@
-package peaksoft.java.dto.response;
+package peaksoft.java.dto.response.user;
 
 import peaksoft.java.enums.Role;
 

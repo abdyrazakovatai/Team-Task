@@ -1,4 +1,4 @@
-package peaksoft.java.dto.response;
+package peaksoft.java.dto.response.team;
 
 public record TeamsResponse(
         Long teamId,

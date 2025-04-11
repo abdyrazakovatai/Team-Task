@@ -11,12 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import peaksoft.java.dto.request.TaskRequest;
-import peaksoft.java.dto.response.AssignTaskResponse;
+import peaksoft.java.dto.response.task.AssignTaskResponse;
 import peaksoft.java.dto.response.SimpleResponse;
-import peaksoft.java.dto.response.TaskResponse;
+import peaksoft.java.dto.response.task.TaskResponse;
 import peaksoft.java.entity.Task;
 import peaksoft.java.entity.Team;
-import peaksoft.java.entity.TeamMembers;
 import peaksoft.java.entity.User;
 import peaksoft.java.enums.Status;
 import peaksoft.java.repository.TaskRepository;
@@ -24,7 +23,6 @@ import peaksoft.java.repository.TeamMembersRepository;
 import peaksoft.java.repository.UserRepository;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,10 +1,8 @@
 package peaksoft.java.api.auth;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.java.dto.request.AuthRequest;
-import peaksoft.java.dto.request.EmailRequest;
 import peaksoft.java.dto.request.LoginRequest;
 import peaksoft.java.dto.response.AuthResponse;
 import peaksoft.java.dto.response.SimpleResponse;

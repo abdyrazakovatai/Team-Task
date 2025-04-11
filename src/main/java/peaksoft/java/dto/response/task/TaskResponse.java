@@ -1,10 +1,11 @@
-package peaksoft.java.dto.response;
+package peaksoft.java.dto.response.task;
 
 import peaksoft.java.enums.Status;
 
 import java.time.LocalDate;
 
-public record TasksResponse(
+public record TaskResponse(
+        Long taskId,
         String title,
         String description,
         Status status,
