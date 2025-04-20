@@ -21,7 +21,7 @@ import java.util.List;
 public class AuthController {
     final UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public String getAll(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users",users);
@@ -31,7 +31,7 @@ public class AuthController {
     @GetMapping("/sign-up")
     private String main(@ModelAttribute AuthRequest user,Model model) {
         model.addAttribute("user",user);
-        return "/register";
+        return "/index";
     }
 
     @PostMapping("/save")

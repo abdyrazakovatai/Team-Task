@@ -9,7 +9,7 @@
 <h1>Регистрация</h1>
 
 <!-- Форма для регистрации -->
-<form action="/api/user/save" method="post">
+<form action="/api/auth/save" method="post">
   <label for="name">Имя пользователя:</label>
   <input type="text" id="name" name="name" th:value="${user.firstName}" required /><br>
 
