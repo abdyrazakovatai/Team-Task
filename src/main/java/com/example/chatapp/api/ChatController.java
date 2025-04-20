@@ -28,7 +28,7 @@ public class ChatController {
     public String startChat(@RequestParam Long userId, HttpSession session) {
         User currentUser = (User) session.getAttribute("user");
         chatService.chatStart(currentUser,userId);
-        return "chatStart";
+        return "chat/chatStart";
     }
 
     @Transactional

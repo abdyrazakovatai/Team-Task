@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping("/register")
     public String signUp(@ModelAttribute User user, Model model) {
         model.addAttribute("user",user);
-        return "register";
+        return "chat/register";
     }
 
     @PostMapping("/save")
