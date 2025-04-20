@@ -25,6 +25,6 @@ app:
       refreshExpiration: 604800
 
 server:
-  port: 9191
+  port: 1919
   error:
     include-message: always
