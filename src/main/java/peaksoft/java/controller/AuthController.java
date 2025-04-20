@@ -31,7 +31,7 @@ public class AuthController {
     @GetMapping("/")
     private String main(@ModelAttribute AuthRequest user,Model model) {
         model.addAttribute("user",user);
-        return "/index";
+        return "index";
     }
 
     @PostMapping("/save")
