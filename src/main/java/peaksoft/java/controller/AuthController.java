@@ -21,14 +21,14 @@ import java.util.List;
 public class AuthController {
     final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/users")
     public String getAll(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users",users);
         return "getAll";
     }
 
-    @GetMapping("/sign-up")
+    @GetMapping("/")
     private String main(@ModelAttribute AuthRequest user,Model model) {
         model.addAttribute("user",user);
         return "/index";
