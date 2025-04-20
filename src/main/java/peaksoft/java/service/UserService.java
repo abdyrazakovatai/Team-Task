@@ -153,6 +153,8 @@ public class UserService {
         );
     }
 
+
+
     public SimpleResponse delete(Long id) {
         User user = userRepository.getUserById(id);
         if (user == null) {
@@ -170,5 +172,9 @@ public class UserService {
                 HttpStatus.OK,
                 "Delete successfully"
         );
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

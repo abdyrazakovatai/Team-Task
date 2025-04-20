@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Все пользователи</title>
+</head>
+<body>
+<h1>Список пользователей</h1>
+
+<tbody>
+<tr th:each="user : ${users}">
+  <td th:text="${user.id}"></td>
+  <td th:text="${user.firstName}"></td>
+  <td th:text="${user.lastName}"></td>
+  <td th:text="${user.email}"></td>
+  <td>
+    <!-- Форма для выбора пользователя -->
+    <form action="/api/chat/startChat" method="POST">
+      <input type="hidden" name="userId" th:value="${user.id}" />
+      <button type="submit">Начать чат</button>
+    </form>
+  </td>
+</tr>
+</tbody>
+</body>
+</html>
