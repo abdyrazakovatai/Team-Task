@@ -5,7 +5,7 @@ window.onload = function () {
         console.error("StompJs failed to load!"); // Исправлено сообщение
         return;
     }
-    const socket = new SockJS('https://my-websocket-chat-545a0987aa03.herokuapp.com/chat'); // Исправлен эндпоинт на /chat
+    const socket = new SockJS('http://35.158.118.182/chat'); // Исправлен эндпоинт на /chat
     const stompClient = window.Stomp.over(socket); // Исправлено на StompJs
 
     console.log("stompClient: ", stompClient); // Исправлено имя лога
