@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
         user.setName("Admin");
         user.setEmail("admin@gmail.com");
         user.setPassword("Admin123");
-        if (!userRepository.existsUserByEmail(user.getEmail())){
+        if (userRepository.existsUserByEmail(user.getEmail())){
             userRepository.save(user);
         }else {
             throw new BadRequestException("User already exists");
