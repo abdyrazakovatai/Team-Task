@@ -18,14 +18,13 @@ public class UserServiceImpl implements UserService {
 
     @PostConstruct
     public void init() {
-        User user = new User();
-        user.setName("Admin");
-        user.setEmail("admin@gmail.com");
-        user.setPassword("Admin123");
-        if (userRepository.existsUserByEmail(user.getEmail())){
-            userRepository.save(user);
-        }else {
-            throw new BadRequestException("User already exists");
+        boolean exists = userRepository.existsUserByEmail("admin@gmail.com");
+        if (!exists) {
+            userRepository.save(User.builder()
+                    .name("admin")
+                    .email("admin@gmail.com")
+                    .password("Admin123")
+                    .build());
         }
     }
 
