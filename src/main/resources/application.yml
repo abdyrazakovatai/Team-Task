@@ -17,14 +17,19 @@ spring:
       ddl-auto: update
     show-sql: true
 
-app:
-  security:
-    jwt:
-      secret_key: "java"
-      expiration: 900
-      refreshExpiration: 604800
-
+#app:
+#  security:
+#    jwt:
+#      secret_key: "java"
+#      expiration: 900
+#      refreshExpiration: 604800
 server:
   port: 1919
   error:
     include-message: always
+logging:
+  file:
+    name: /home/ec2-user/app.log
+
+  level:
+    root: info
