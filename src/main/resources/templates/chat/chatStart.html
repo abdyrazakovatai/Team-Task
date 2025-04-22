@@ -1,95 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--  <title>Чат</title>-->
-<!--  <style>-->
-<!--    body {-->
-<!--      font-family: Arial, sans-serif;-->
-<!--      margin: 0;-->
-<!--      padding: 20px;-->
-<!--      background-color: #f4f4f4;-->
-<!--      display: flex;-->
-<!--      justify-content: center;-->
-<!--    }-->
-<!--    .chat-container {-->
-<!--      width: 400px;-->
-<!--      background: white;-->
-<!--      padding: 20px;-->
-<!--      border-radius: 10px;-->
-<!--      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
-<!--    }-->
-<!--    .messages {-->
-<!--      height: 300px;-->
-<!--      overflow-y: auto;-->
-<!--      border-bottom: 1px solid #ccc;-->
-<!--      margin-bottom: 10px;-->
-<!--      padding: 10px;-->
-<!--      background: #fff;-->
-<!--      display: flex;-->
-<!--      flex-direction: column;-->
-<!--      gap: 10px;-->
-<!--    }-->
-<!--    .message {-->
-<!--      max-width: 70%;-->
-<!--      padding: 10px;-->
-<!--      border-radius: 10px;-->
-<!--      word-wrap: break-word;-->
-<!--      display: flex;-->
-<!--      flex-direction: column;-->
-<!--    }-->
-<!--    .user-message {-->
-<!--      background: #28a745; /* Зеленый цвет */-->
-<!--      color: white;-->
-<!--      align-self: flex-end;-->
-<!--    }-->
-<!--    .friend-message {-->
-<!--      background: #e0e0e0;-->
-<!--      align-self: flex-start;-->
-<!--    }-->
-<!--    .message .sender {-->
-<!--      font-weight: bold;-->
-<!--    }-->
-<!--    .input-container {-->
-<!--      display: flex;-->
-<!--      margin-top: 10px;-->
-<!--    }-->
-<!--    .input-container input {-->
-<!--      flex: 1;-->
-<!--      padding: 10px;-->
-<!--      border: 1px solid #ccc;-->
-<!--      border-radius: 5px;-->
-<!--    }-->
-<!--    .input-container button {-->
-<!--      padding: 10px;-->
-<!--      border: none;-->
-<!--      background: #007bff;-->
-<!--      color: white;-->
-<!--      border-radius: 5px;-->
-<!--      cursor: pointer;-->
-<!--    }-->
-<!--  </style>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<div class="chat-container">-->
-<!--  <h2>Чат <span id="unreadCounter" style="color: red;">(0)</span></h2>-->
-<!--  <div class="messages" id="messages"></div>-->
-<!--  <div class="input-container">-->
-<!--    <input type="text" id="messageInput" placeholder="Напишите сообщение...">-->
-<!--    <button id="sendMessageButton">Send Message</button>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Подключаем SockJS и Stomp &ndash;&gt;-->
-<!--<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>-->
-<!--&lt;!&ndash; Подключаем наш скрипт &ndash;&gt;-->
-<!--<script src="/index.js"></script>-->
-
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -182,10 +90,12 @@
     </div>
 </div>
 
-<!--<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="/js/lib/stomp.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<!--<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>-->
+<!--<script src="/js/lib/stomp.umd.min.js"></script>-->
 <script src="/index.js"></script>
+
 </body>
 </html>
