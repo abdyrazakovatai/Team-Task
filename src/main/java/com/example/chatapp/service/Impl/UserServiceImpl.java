@@ -6,8 +6,6 @@ import com.example.chatapp.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import peaksoft.java.enums.Role;
-import peaksoft.java.exception.BadRequestException;
 
 import java.util.List;
 
