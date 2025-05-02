@@ -6,16 +6,23 @@ window.onload = function () {
         return;
     }
     const socket = new SockJS('http://35.158.118.182/chat'); // Исправлен эндпоинт на /chat
+    // const socket = new SockJS('http://localhost:1919/chat');
     const stompClient = window.Stomp.over(socket); // Исправлено на StompJs
 
     console.log("stompClient: ", stompClient); // Исправлено имя лога
 
     let unreadCount = 0;
-    const currentUserId = 1;
+
+    const currentUserId = parseInt(document.getElementById('currentUserId').value);
+    const chatId = parseInt(document.getElementById('chatId').value);
+
+    console.log("currentUserId =", currentUserId); // 👈 должно быть числом
+    console.log("chatId =", chatId);               // 👈 должно быть числом
 
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/messages', function (message) {
+        stompClient.subscribe('/topic/messages/' + chatId, function (message)
+        {
             const msg = JSON.parse(message.body);
             const isUserMessage = msg.user && msg.user.id === currentUserId;
             showMessage(msg.content, isUserMessage);
@@ -29,7 +36,7 @@ window.onload = function () {
         if (content.trim()) {
             stompClient.send('/app/send', {}, JSON.stringify({
                 content: content,
-                chatId: 1,
+                chatId: chatId,
                 userId: currentUserId,
                 sender: 'User'
             }));

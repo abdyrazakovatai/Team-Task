@@ -34,8 +34,9 @@ public class UserController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute User user, HttpSession session) {
-        session.setAttribute("user",user);
-        userService.save(user);
+        User savedUser = userService.save(user);
+        session.setAttribute("user",savedUser);
+        System.out.println("session = " + session);
         return "redirect:/api/user/users";
     }
 }

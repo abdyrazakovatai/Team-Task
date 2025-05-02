@@ -12,7 +12,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,17 +25,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ChatController {
     private final ChatService chatService;
     private final MessageService messageService;
+    final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/startChat")
-    public String startChat(@RequestParam Long userId, HttpSession session) {
+    public String startChat(@RequestParam Long userId, HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("user");
-        chatService.chatStart(currentUser,userId);
+        System.out.println("currentUser = " + currentUser);
+        System.out.println("userId = " + userId);
+
+        Chat chat = chatService.chatStart(currentUser, userId);
+        model.addAttribute("chat", chat.getId());
+        model.addAttribute("user", currentUser.getId());
         return "chat/chatStart";
     }
 
     @Transactional
     @MessageMapping("/send")
-    @SendTo("/topic/messages")
     public Message sendMessage(MessageDto messageDto) {
         Message message = new Message();
         System.out.println("messageDto = " + messageDto);
@@ -56,6 +63,8 @@ public class ChatController {
         }
 
         message.setUser(user);
-        return messageService.saveMessage(message);
+        Message savedMessage = messageService.saveMessage(message);
+        messagingTemplate.convertAndSend("/topic/messages/" + chat.getId(), savedMessage);
+        return savedMessage;
     }
 }
