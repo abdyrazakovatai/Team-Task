@@ -9,7 +9,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: main
       SERVER_PORT: 2025
-      POSTGRES_DB: jdbc:postgresql://35.158.118.182:5432/postgres
+      POSTGRES_DB: jdbc:postgresql://3.65.40.233:5432/postgres
       POSTGRES_USER: teamuser
       POSTGRES_PASSWORD: teampass
   database:
