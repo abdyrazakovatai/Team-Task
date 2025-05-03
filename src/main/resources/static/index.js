@@ -5,7 +5,7 @@ window.onload = function () {
         console.error("StompJs failed to load!"); // Исправлено сообщение
         return;
     }
-    const socket = new SockJS('http://35.158.118.182/chat'); // Исправлен эндпоинт на /chat
+    const socket = new SockJS('http://3.65.40.233/chat'); // Исправлен эндпоинт на /chat
     // const socket = new SockJS('http://localhost:1919/chat');
     const stompClient = window.Stomp.over(socket); // Исправлено на StompJs
 
